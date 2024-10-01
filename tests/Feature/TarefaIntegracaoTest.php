@@ -23,4 +23,15 @@ class TarefaIntegracaoTest extends TestCase
             'concluida' => false
         ]);
     }
+
+    public function test_criar_tarefa_validar_required()
+    {
+        $response = $this->postJson('/api/tarefas', [
+            'descricao' => 'Descrição da nova tarefa',
+            'concluida' => false
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationError(['titulo']);
+    }
 }
